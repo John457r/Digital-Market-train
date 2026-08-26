@@ -1,0 +1,8 @@
+{
+  "name": "Market Digital Trading",
+  "description": "A premium, high-security digital trading platform featuring real-time TradingView charts, multi-stage withdrawal verification, and live admin support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Registered trading account information.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "country": { "type": "string" },
+        "phone": { "type": "string" },
+        "city": { "type": "string" },
+        "status": { "type": "string", "enum": ["Active", "Pending", "Restricted"] },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "balance": { "type": "number" },
+        "profit": { "type": "number" },
+        "pin": { "type": "string" },
+        "bankDetails": {
+          "type": "object",
+          "properties": {
+            "bankName": { "type": "string" },
+            "accountName": { "type": "string" },
+            "city": { "type": "string" },
+            "swiftCode": { "type": "string" },
+            "accountNumber": { "type": "string" }
+          }
+        },
+        "onboarded": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "firstName", "lastName", "role", "status", "balance"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Deposit and withdrawal logs.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "amount": { "type": "number" },
+        "type": { "type": "string", "enum": ["deposit", "withdrawal"] },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "bankingCode": { "type": "string" },
+        "withdrawalCode": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "amount", "type", "status", "createdAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Messages between users and admin support.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "text": { "type": "string" },
+        "isAdmin": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "senderId", "text", "isAdmin", "createdAt"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "System alerts for users.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "message", "read", "createdAt"]
+    },
+    "AdminConfig": {
+      "title": "AdminConfig",
+      "description": "Singleton or list of global admin settings/uids.",
+      "type": "object",
+      "properties": {
+        "adminUids": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "Profiles for all traders."
+    },
+    "transactions/{txId}": {
+      "schema": "Transaction",
+      "description": "Ledger of all financial moves."
+    },
+    "chats/{userId}/messages/{msgId}": {
+      "schema": "ChatMessage",
+      "description": "Direct support thread with a specific user."
+    },
+    "notifications/{notifId}": {
+      "schema": "Notification",
+      "description": "User specific alerts."
+    }
+  }
+}
